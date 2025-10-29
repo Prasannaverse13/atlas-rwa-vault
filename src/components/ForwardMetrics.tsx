@@ -24,70 +24,124 @@ export const ForwardMetrics = () => {
 
     const fetchForwardMetrics = async () => {
       try {
-        // Fetch SOL balance
-        const solBalance = await tritonService.getConnection().getBalance(publicKey);
-        const solAmount = solBalance / 1e9;
+        setIsLoading(true);
+        
+        // Add timeout to prevent hanging
+        const timeout = new Promise((_, reject) => 
+          setTimeout(() => reject(new Error('Request timeout')), 5000)
+        );
 
-        // Fetch USDC balance
-        const usdcTokenAccounts = await tritonService.getConnection().getTokenAccountsByOwner(publicKey, {
-          mint: TOKENS.USDC,
-        });
-        let usdcAmount = 0;
-        if (usdcTokenAccounts.value.length > 0) {
-          const balance = await tritonService.getTokenAccountBalance(usdcTokenAccounts.value[0].pubkey);
-          usdcAmount = parseFloat(balance.value.uiAmount?.toString() || '0');
-        }
+        const fetchData = async () => {
+          // Fetch SOL balance
+          const solBalance = await tritonService.getConnection().getBalance(publicKey);
+          const solAmount = solBalance / 1e9;
 
-        // Calculate Forward-style metrics
-        const solPrice = 194.30; // Real-time SOL price (would fetch from oracle in production)
-        const totalAUM = (solAmount * solPrice) + usdcAmount;
-        const solPerShare = solAmount; // Simplified for demo (would be total SOL / shares outstanding)
-        const stakingAPY = 7.2; // Average Solana staking APY
-        const defiYield = 5.8; // Average DeFi yield from pools
-        const blendedYield = (stakingAPY * 0.6) + (defiYield * 0.4); // 60% staking, 40% DeFi
+          // Fetch USDC balance with error handling
+          let usdcAmount = 0;
+          try {
+            const usdcTokenAccounts = await tritonService.getConnection().getTokenAccountsByOwner(publicKey, {
+              mint: TOKENS.USDC,
+            });
+            if (usdcTokenAccounts.value.length > 0) {
+              const balance = await tritonService.getTokenAccountBalance(usdcTokenAccounts.value[0].pubkey);
+              usdcAmount = parseFloat(balance.value.uiAmount?.toString() || '0');
+            }
+          } catch (err) {
+            console.warn('Could not fetch USDC balance:', err);
+          }
 
-        const calculatedMetrics: ForwardMetric[] = [
+          // Calculate Forward-style metrics
+          const solPrice = 194.30; // Real-time SOL price (would fetch from oracle in production)
+          const totalAUM = (solAmount * solPrice) + usdcAmount;
+          const solPerShare = solAmount; // Simplified for demo (would be total SOL / shares outstanding)
+          const stakingAPY = 7.2; // Average Solana staking APY
+          const defiYield = 5.8; // Average DeFi yield from pools
+          const blendedYield = (stakingAPY * 0.6) + (defiYield * 0.4); // 60% staking, 40% DeFi
+
+          const calculatedMetrics: ForwardMetric[] = [
+            {
+              label: 'Total AUM',
+              value: `$${totalAUM.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`,
+              change: '+12.4%',
+              trend: 'up',
+              icon: <Wallet className="w-4 h-4" />,
+            },
+            {
+              label: 'SOL Holdings',
+              value: `${solAmount.toFixed(4)} SOL`,
+              change: '+8.2%',
+              trend: 'up',
+              icon: <TrendingUp className="w-4 h-4" />,
+            },
+            {
+              label: 'SOL per Share',
+              value: solPerShare.toFixed(6),
+              change: '+5.1%',
+              trend: 'up',
+              icon: <Target className="w-4 h-4" />,
+            },
+            {
+              label: 'Blended Yield',
+              value: `${blendedYield.toFixed(2)}%`,
+              change: '+0.3%',
+              trend: 'up',
+              icon: <Activity className="w-4 h-4" />,
+            },
+            {
+              label: 'mNAV (Modified NAV)',
+              value: `$${(totalAUM * 1.15).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`,
+              change: '+15.8%',
+              trend: 'up',
+              icon: <DollarSign className="w-4 h-4" />,
+            },
+          ];
+
+          return calculatedMetrics;
+        };
+
+        const result = await Promise.race([fetchData(), timeout]) as ForwardMetric[];
+        setMetrics(result);
+      } catch (error) {
+        console.error('Error fetching Forward metrics:', error);
+        // Set default/demo metrics if fetch fails
+        setMetrics([
           {
             label: 'Total AUM',
-            value: `$${totalAUM.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`,
-            change: '+12.4%',
-            trend: 'up',
+            value: '$0.00',
+            change: '--',
+            trend: 'neutral',
             icon: <Wallet className="w-4 h-4" />,
           },
           {
             label: 'SOL Holdings',
-            value: `${solAmount.toFixed(4)} SOL`,
-            change: '+8.2%',
-            trend: 'up',
+            value: '0.0000 SOL',
+            change: '--',
+            trend: 'neutral',
             icon: <TrendingUp className="w-4 h-4" />,
           },
           {
             label: 'SOL per Share',
-            value: solPerShare.toFixed(6),
-            change: '+5.1%',
-            trend: 'up',
+            value: '0.000000',
+            change: '--',
+            trend: 'neutral',
             icon: <Target className="w-4 h-4" />,
           },
           {
             label: 'Blended Yield',
-            value: `${blendedYield.toFixed(2)}%`,
-            change: '+0.3%',
-            trend: 'up',
+            value: '6.64%',
+            change: '--',
+            trend: 'neutral',
             icon: <Activity className="w-4 h-4" />,
           },
           {
             label: 'mNAV (Modified NAV)',
-            value: `$${(totalAUM * 1.15).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`,
-            change: '+15.8%',
-            trend: 'up',
+            value: '$0.00',
+            change: '--',
+            trend: 'neutral',
             icon: <DollarSign className="w-4 h-4" />,
           },
-        ];
-
-        setMetrics(calculatedMetrics);
-        setIsLoading(false);
-      } catch (error) {
-        console.error('Error fetching Forward metrics:', error);
+        ]);
+      } finally {
         setIsLoading(false);
       }
     };
