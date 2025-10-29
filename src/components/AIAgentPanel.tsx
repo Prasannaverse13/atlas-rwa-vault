@@ -6,10 +6,10 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Brain, TrendingUp, Activity, Zap, Loader2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
-import { geminiService } from '@/services/geminiService';
 import { raydiumService } from '@/services/raydiumService';
 import { splTokenService } from '@/services/splTokenService';
-import { TOKENS } from '@/config/constants';
+import { TOKENS, TREASURY_CONFIG } from '@/config/constants';
+import { supabase } from '@/integrations/supabase/client';
 
 interface AIAgentPanelProps {
   onAction: (action: any) => void;
@@ -48,20 +48,38 @@ export const AIAgentPanel = ({ onAction }: AIAgentPanelProps) => {
     setIsAnalyzing(true);
     
     try {
-      // Get real token balances
-      const usdcBalance = await splTokenService.getTokenBalance(publicKey, TOKENS.USDC);
-      const tbillBalance = await splTokenService.getTokenBalance(publicKey, TOKENS.T_BILL);
+      // Get token balances with fallbacks
+      let usdcBalance = "0";
+      let tbillBalance = "0";
       
-      // Call Gemini AI for real analysis
-      const aiAnalysis = await geminiService.analyzeMarket({
-        portfolioValue: 1850000,
-        currentYield: 8.5,
-        targetYield: parseFloat(targetYield),
-        rwaHoldings: [
-          { token: 't-BILL', balance: tbillBalance.amount, value: 850000 },
-          { token: 'USDC', balance: usdcBalance.amount, value: 700000 },
-        ],
+      try {
+        const usdcData = await splTokenService.getTokenBalance(publicKey, TOKENS.USDC);
+        usdcBalance = usdcData.amount;
+      } catch (e) {
+        console.log('USDC balance not found, using 0');
+      }
+      
+      try {
+        const tbillData = await splTokenService.getTokenBalance(publicKey, TOKENS.T_BILL);
+        tbillBalance = tbillData.amount;
+      } catch (e) {
+        console.log('T-BILL balance not found, using 0');
+      }
+
+      // Call edge function
+      const { data: aiAnalysis, error } = await supabase.functions.invoke('analyze-market', {
+        body: {
+          portfolioValue: 1850000,
+          currentYield: 8.5,
+          targetYield: parseFloat(targetYield),
+          rwaHoldings: [
+            { token: 't-BILL', balance: tbillBalance, value: 850000 },
+            { token: 'USDC', balance: usdcBalance, value: 700000 },
+          ],
+        },
       });
+
+      if (error) throw error;
 
       const analysis = {
         type: 'Market Analysis',
@@ -84,9 +102,10 @@ export const AIAgentPanel = ({ onAction }: AIAgentPanelProps) => {
       });
     } catch (error) {
       console.error('Analysis error:', error);
+      const errorMessage = error instanceof Error ? error.message : "Unable to complete market analysis.";
       toast({
         title: "Analysis Failed",
-        description: "Unable to complete market analysis. Check console for details.",
+        description: errorMessage,
         variant: "destructive",
       });
     } finally {
@@ -178,16 +197,20 @@ export const AIAgentPanel = ({ onAction }: AIAgentPanelProps) => {
     setIsAnalyzing(true);
     
     try {
-      // Call Gemini AI for portfolio optimization
-      const optimization = await geminiService.optimizePortfolio({
-        currentAllocation: {
-          't-BILL': 45,
-          'USDC': 40,
-          'LP Positions': 15,
+      // Call edge function
+      const { data: optimization, error } = await supabase.functions.invoke('optimize-portfolio', {
+        body: {
+          currentAllocation: {
+            't-BILL': 45,
+            'USDC': 40,
+            'LP Positions': 15,
+          },
+          targetYield: parseFloat(targetYield),
+          riskTolerance: TREASURY_CONFIG.RISK_TOLERANCE,
         },
-        targetYield: parseFloat(targetYield),
-        riskTolerance: 'low',
       });
+
+      if (error) throw error;
 
       const result = {
         type: 'Portfolio Optimization',
@@ -208,9 +231,10 @@ export const AIAgentPanel = ({ onAction }: AIAgentPanelProps) => {
       });
     } catch (error) {
       console.error('Optimization error:', error);
+      const errorMessage = error instanceof Error ? error.message : "Unable to optimize portfolio.";
       toast({
         title: "Optimization Failed",
-        description: "Unable to optimize portfolio. Check console for details.",
+        description: errorMessage,
         variant: "destructive",
       });
     } finally {
@@ -319,7 +343,7 @@ export const AIAgentPanel = ({ onAction }: AIAgentPanelProps) => {
         <div className="text-xs text-muted-foreground bg-muted/50 p-3 rounded-lg">
           <p className="font-semibold mb-1">🔗 Integrated Services:</p>
           <ul className="space-y-1 list-disc list-inside">
-            <li><strong>Gemini 2.0 Flash:</strong> Real AI market analysis & optimization</li>
+            <li><strong>Lovable AI (Gemini 2.5 Flash):</strong> Real AI market analysis & optimization</li>
             <li><strong>Raydium SDK V2:</strong> {isInitialized ? '✅ Connected' : '⏳ Initializing...'}</li>
             <li><strong>Triton RPC:</strong> High-performance Solana data</li>
             <li><strong>SPL Token:</strong> Real-time RWA token monitoring</li>

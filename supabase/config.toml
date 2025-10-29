@@ -1,0 +1,7 @@
+project_id = "lgwtynjmdvwaytkldisw"
+
+[functions.analyze-market]
+verify_jwt = false
+
+[functions.optimize-portfolio]
+verify_jwt = false
