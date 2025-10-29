@@ -5,6 +5,7 @@ import { TreasuryOverview } from './TreasuryOverview';
 import { AIAgentPanel } from './AIAgentPanel';
 import { ActivityFeed } from './ActivityFeed';
 import { PortfolioAllocation } from './PortfolioAllocation';
+import { ResourcesFooter } from './ResourcesFooter';
 import { Shield, LogOut } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
@@ -65,6 +66,9 @@ export const Dashboard = () => {
             <ActivityFeed actions={aiActions} />
           </div>
         </div>
+
+        {/* Resources Footer */}
+        <ResourcesFooter />
       </main>
     </div>
   );
