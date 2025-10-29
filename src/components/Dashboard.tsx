@@ -33,7 +33,9 @@ export const Dashboard = () => {
               </div>
             </div>
             <div className="flex items-center gap-3">
-              <WalletMultiButton className="!bg-muted hover:!bg-muted/80 !text-foreground !rounded-lg !px-4 !py-2 !text-sm" />
+              <WalletMultiButton className="!bg-muted hover:!bg-muted/80 !text-foreground !rounded-lg !px-4 !py-2 !text-sm">
+                Wallet
+              </WalletMultiButton>
               <Button 
                 variant="outline" 
                 size="sm"

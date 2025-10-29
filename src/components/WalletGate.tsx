@@ -29,12 +29,14 @@ export const WalletGate = () => {
               <Wallet className="w-12 h-12 mx-auto text-primary" />
               <h2 className="text-2xl font-bold">Connect Your Wallet</h2>
               <p className="text-muted-foreground">
-                Connect your Phantom wallet to access the treasury dashboard
+                Connect your Solana wallet to access the treasury dashboard
               </p>
             </div>
 
             <div className="flex justify-center">
-              <WalletMultiButton className="!bg-primary hover:!bg-primary/90 !text-primary-foreground !rounded-xl !px-8 !py-6 !text-lg !font-semibold transition-smooth shadow-elevated" />
+              <WalletMultiButton className="!bg-primary hover:!bg-primary/90 !text-primary-foreground !rounded-xl !px-8 !py-6 !text-lg !font-semibold transition-smooth shadow-elevated">
+                Wallet
+              </WalletMultiButton>
             </div>
 
             <div className="grid md:grid-cols-3 gap-6 pt-6 border-t">
