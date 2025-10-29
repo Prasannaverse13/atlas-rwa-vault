@@ -9,6 +9,8 @@ import { ResourcesFooter } from './ResourcesFooter';
 import { FairValueOracle } from './FairValueOracle';
 import { RiskRegimeMonitor } from './RiskRegimeMonitor';
 import { PortfolioDiversifier } from './PortfolioDiversifier';
+import { ForwardMetrics } from './ForwardMetrics';
+import { StakingYieldTracker } from './StakingYieldTracker';
 import { Shield, LogOut } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
@@ -58,11 +60,17 @@ export const Dashboard = () => {
         {/* Treasury Overview */}
         <TreasuryOverview />
 
+        {/* Forward Industries Strategy Metrics */}
+        <ForwardMetrics />
+
         {/* Main Grid */}
         <div className="grid lg:grid-cols-3 gap-8">
           {/* Left Column - AI Features */}
           <div className="lg:col-span-2 space-y-8">
             <AIAgentPanel onAction={handleAIAction} />
+            
+            {/* Staking & Yield Tracking */}
+            <StakingYieldTracker />
             
             {/* New AI Intelligence Features */}
             <div className="grid md:grid-cols-2 gap-6">
