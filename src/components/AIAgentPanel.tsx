@@ -129,6 +129,9 @@ export const AIAgentPanel = ({ onAction }: AIAgentPanelProps) => {
       const ok = await raydiumService.initialize(publicKey);
       if (ok) setIsInitialized(true);
     }
+
+    setIsDeploying(true);
+    try {
       toast({
         title: "Preparing Deployment",
         description: "Fetching pool information from Raydium...",
