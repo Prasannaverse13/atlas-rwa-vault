@@ -319,7 +319,6 @@ Atlas uses **100% real-time data** from production sources:
 | Network Volatility | Triton RPC | 30 seconds | Risk Regime Monitor |
 | Solana Metrics | Triton RPC | Real-time | Market Analysis |
 
-**❌ Zero Mock Data** - Every number, chart, and recommendation is derived from live blockchain state and real-world APIs.
 
 ---
 
@@ -482,14 +481,6 @@ This project is built for demonstration and educational purposes, showcasing how
 - ✅ **RWA Focus**: Specialized in tokenized T-Bills and government securities
 
 Atlas is the autonomous treasury manager that Forward Industries envisions for the future of corporate finance on Solana.
-
----
-
-## 📞 Support
-
-- **Project URL**: [https://lovable.dev/projects/47a2d206-9f09-4f63-af2c-400387d7fe35](https://lovable.dev/projects/47a2d206-9f09-4f63-af2c-400387d7fe35)
-- **Documentation**: See `INTEGRATIONS.md` for detailed technical specs
-- **Issues**: Submit via GitHub Issues
 
 ---
 
