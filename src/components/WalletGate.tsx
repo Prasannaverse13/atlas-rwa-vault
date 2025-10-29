@@ -34,9 +34,7 @@ export const WalletGate = () => {
             </div>
 
             <div className="flex justify-center">
-              <WalletMultiButton className="!bg-primary hover:!bg-primary/90 !text-primary-foreground !rounded-xl !px-8 !py-6 !text-lg !font-semibold transition-smooth shadow-elevated">
-                Wallet
-              </WalletMultiButton>
+              <WalletMultiButton className="!bg-primary hover:!bg-primary/90 !text-primary-foreground !rounded-xl !px-8 !py-6 !text-lg !font-semibold transition-smooth shadow-elevated" />
             </div>
 
             <div className="grid md:grid-cols-3 gap-6 pt-6 border-t">

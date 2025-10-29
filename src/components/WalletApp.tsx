@@ -1,6 +1,8 @@
 import { lazy, Suspense } from 'react'
 import { WalletProvider } from '@/components/WalletProvider'
 import { useWallet } from '@solana/wallet-adapter-react'
+import '@solana/wallet-adapter-react-ui/styles.css'
+import { ErrorBoundary } from '@/components/ErrorBoundary'
 
 const WalletGate = lazy(() => import('@/components/WalletGate').then(m => ({ default: m.WalletGate })))
 const Dashboard = lazy(() => import('@/components/Dashboard').then(m => ({ default: m.Dashboard })))
@@ -19,9 +21,11 @@ const WalletInner = () => {
 export default function WalletApp() {
   return (
     <WalletProvider>
-      <Suspense fallback={<Fallback />}>
-        <WalletInner />
-      </Suspense>
+      <ErrorBoundary>
+        <Suspense fallback={<Fallback />}>
+          <WalletInner />
+        </Suspense>
+      </ErrorBoundary>
     </WalletProvider>
   )
 }

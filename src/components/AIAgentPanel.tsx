@@ -23,17 +23,18 @@ export const AIAgentPanel = ({ onAction }: AIAgentPanelProps) => {
   const [isInitialized, setIsInitialized] = useState(false);
   const { toast } = useToast();
 
-  // Initialize Raydium SDK when wallet connects
-  useEffect(() => {
-    if (publicKey && !isInitialized) {
-      raydiumService.initialize(publicKey).then((success) => {
-        if (success) {
-          setIsInitialized(true);
-          console.log('Raydium SDK ready');
-        }
-      });
-    }
-  }, [publicKey, isInitialized]);
+  // Defer Raydium SDK initialization until user triggers an action to reduce initial load
+  // We'll initialize inside deployToRaydium when needed.
+  // useEffect(() => {
+  //   if (publicKey && !isInitialized) {
+  //     raydiumService.initialize(publicKey).then((success) => {
+  //       if (success) {
+  //         setIsInitialized(true);
+  //         console.log('Raydium SDK ready');
+  //       }
+  //     });
+  //   }
+  // }, [publicKey, isInitialized]);
 
   const analyzeMarket = async () => {
     if (!publicKey) {
@@ -114,18 +115,20 @@ export const AIAgentPanel = ({ onAction }: AIAgentPanelProps) => {
   };
 
   const deployToRaydium = async () => {
-    if (!publicKey || !isInitialized) {
+    if (!publicKey) {
       toast({
-        title: "Not Ready",
-        description: "Wallet not connected or Raydium SDK not initialized",
+        title: "Wallet Not Connected",
+        description: "Please connect your wallet first",
         variant: "destructive",
       });
       return;
     }
 
-    setIsDeploying(true);
-    
-    try {
+    // Lazy init Raydium SDK on first use
+    if (!isInitialized) {
+      const ok = await raydiumService.initialize(publicKey);
+      if (ok) setIsInitialized(true);
+    }
       toast({
         title: "Preparing Deployment",
         description: "Fetching pool information from Raydium...",

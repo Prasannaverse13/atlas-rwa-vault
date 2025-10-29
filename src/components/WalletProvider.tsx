@@ -21,10 +21,9 @@ export const WalletProvider: FC<WalletProviderProps> = ({ children }) => {
   
   const wallets = useMemo(
     () => [
-      new PhantomWalletAdapter(),
+      // Rely on standard wallet detection for Phantom, Coinbase, Trust, etc.
+      // Keep Solflare explicit for better compatibility
       new SolflareWalletAdapter(),
-      new CoinbaseWalletAdapter(),
-      new TrustWalletAdapter(),
     ],
     []
   );
