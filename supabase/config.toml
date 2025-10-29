@@ -5,3 +5,12 @@ verify_jwt = false
 
 [functions.optimize-portfolio]
 verify_jwt = false
+
+[functions.fair-value-oracle]
+verify_jwt = false
+
+[functions.risk-regime-detector]
+verify_jwt = false
+
+[functions.portfolio-diversifier]
+verify_jwt = false

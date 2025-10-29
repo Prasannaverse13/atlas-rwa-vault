@@ -6,6 +6,9 @@ import { AIAgentPanel } from './AIAgentPanel';
 import { ActivityFeed } from './ActivityFeed';
 import { PortfolioAllocation } from './PortfolioAllocation';
 import { ResourcesFooter } from './ResourcesFooter';
+import { FairValueOracle } from './FairValueOracle';
+import { RiskRegimeMonitor } from './RiskRegimeMonitor';
+import { PortfolioDiversifier } from './PortfolioDiversifier';
 import { Shield, LogOut } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
@@ -57,9 +60,17 @@ export const Dashboard = () => {
 
         {/* Main Grid */}
         <div className="grid lg:grid-cols-3 gap-8">
-          {/* Left Column - AI Agent & Portfolio */}
+          {/* Left Column - AI Features */}
           <div className="lg:col-span-2 space-y-8">
             <AIAgentPanel onAction={handleAIAction} />
+            
+            {/* New AI Intelligence Features */}
+            <div className="grid md:grid-cols-2 gap-6">
+              <FairValueOracle />
+              <RiskRegimeMonitor />
+            </div>
+            
+            <PortfolioDiversifier />
             <PortfolioAllocation />
           </div>
 
