@@ -37,10 +37,12 @@ Atlas is an AI-powered treasury management system for Real-World Assets (RWAs) o
 
 ## 🔗 Core Integrations
 
-### Forward Industries Treasury Strategy (PRIMARY INTEGRATION)
-**Code**: `src/components/ForwardMetrics.tsx`, `src/components/StakingYieldTracker.tsx`, `src/config/constants.ts`
+### Forward Industries Ecosystem (PRIMARY INTEGRATION)
+**Code**: `src/components/ForwardMetrics.tsx`, `src/components/StakingYieldTracker.tsx`, `src/components/RWATracking.tsx`, `src/config/constants.ts`
 
-Atlas is built on Forward Industries' proven institutional strategy:
+Atlas is built on Forward Industries' proven institutional strategy and leverages their full design-to-deployment ecosystem:
+
+#### **1. Solana Treasury Strategy** (Core)
 - ✅ **SOL per Share Growth**: Track the same metric Forward uses ($6.8M+ SOL holdings)
 - ✅ **Dual Revenue Streams**: 60% staking + 40% DeFi (Forward's exact allocation)
 - ✅ **mNAV Tracking**: Modified Net Asset Value with ecosystem growth multiplier
@@ -48,12 +50,28 @@ Atlas is built on Forward Industries' proven institutional strategy:
 - ✅ **Institutional Risk Management**: Low risk tolerance, 2% rebalancing threshold
 - ✅ **Capital Markets Arbitrage**: Identifying spreads between traditional finance and DeFi
 
-**What Atlas Uses from Forward**:
+#### **2. Intelligent Product Solutions (IPS)** (Conceptual IoT Integration)
+- ✅ **Embedded Systems for RWA Tracking**: Monitor physical custody of tokenized T-Bills
+- ✅ **Complex Systems Integration**: Connect on-chain tokens with off-chain asset sensors
+- ✅ **Custom Software Development**: Real-time verification of asset location and condition
+
+#### **3. Kablooe Design** (Connected Device Architecture)
+- ✅ **Device-Cloud-Application Platform**: Secure IoT communication for RWA custody sensors
+- ✅ **Medical Device-Grade Security**: Apply healthcare compliance standards to financial assets
+- ✅ **Reference Architecture**: HC-1 Headset connectivity model adapted for asset tracking
+
+#### **4. Forward APAC** (Global Supply Chain)
+- ✅ **Manufacturing & Logistics Network**: Physical asset custody verification
+- ✅ **Geographic Tracking**: Monitor tokenized commodities across global warehouses
+
+**What Atlas Uses from Forward Ecosystem**:
 1. Treasury configuration parameters (`TREASURY_CONFIG` in constants.ts)
 2. Blended yield calculation methodology (staking + DeFi)
 3. Risk management framework (capital preservation mandate)
 4. SOL per share growth tracking
 5. Modified NAV calculations
+6. **NEW**: IoT device integration patterns for RWA custody monitoring
+7. **NEW**: Connected device architecture for secure asset-to-blockchain communication
 
 ### Lovable AI (Gemini 2.5 Flash)
 Powers all AI features through secure edge functions. No API keys required.

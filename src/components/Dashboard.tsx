@@ -11,6 +11,7 @@ import { RiskRegimeMonitor } from './RiskRegimeMonitor';
 import { PortfolioDiversifier } from './PortfolioDiversifier';
 import { ForwardMetrics } from './ForwardMetrics';
 import { StakingYieldTracker } from './StakingYieldTracker';
+import { RWATracking } from './RWATracking';
 import { Shield, LogOut } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
@@ -79,6 +80,7 @@ export const Dashboard = () => {
             </div>
             
             <PortfolioDiversifier />
+            <RWATracking />
             <PortfolioAllocation />
           </div>
 

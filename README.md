@@ -224,19 +224,44 @@ graph TB
 
 ---
 
-### **5. Forward Industries Treasury Strategy**
-**Why**: World's leading Solana Treasury company. Atlas embodies Forward's mission of active Solana treasury management.
+### **5. Forward Industries Treasury Strategy & Design Ecosystem**
+**Why**: World's leading Solana Treasury company ($1.65B+ raised) with integrated design, manufacturing, and IoT expertise.
 
 **What it does in Atlas**:
 - Defines treasury configuration (target yield: 5%, risk tolerance: low)
 - Guides AI decision-making with institutional-grade parameters
 - Provides rebalancing thresholds (2% deviation triggers)
 - Establishes capital preservation mandate
+- **NEW**: IoT-enabled RWA tracking using Forward's connected device expertise
+
+**Forward Industries Divisions Integrated**:
+
+1. **Solana Treasury Strategy** (Primary)
+   - $6.8M+ SOL holdings management methodology
+   - 60% staking / 40% DeFi dual-revenue strategy
+   - Modified NAV (mNAV) calculations with ecosystem multiplier
+
+2. **Intelligent Product Solutions (IPS)**
+   - Conceptual integration: Embedded systems for RWA IoT tracking
+   - Use case: Real-time monitoring of tokenized T-Bills in custody
+   - Technology: Complex systems integration, custom software for asset verification
+
+3. **Kablooe Design**
+   - Conceptual integration: Connected medical device architecture adapted for RWA custody
+   - Use case: Secure device-cloud-application communication for asset sensors
+   - Reference projects: HC-1 Headset connectivity, AdhereTech Connected Pill Bottle tracking
+
+4. **Forward APAC**
+   - Conceptual integration: Global supply chain logistics for physical RWA verification
+   - Use case: Custody location tracking for tokenized commodities
+   - Technology: Manufacturing and distribution network integration
 
 **Code Location**:
 - `src/config/constants.ts` - `TREASURY_CONFIG` object
+- `src/components/ForwardMetrics.tsx` - SOL per share, mNAV, AUM tracking
+- `src/components/StakingYieldTracker.tsx` - Dual revenue stream monitoring
+- `src/components/RWATracking.tsx` - **NEW** IoT-enabled asset custody tracking
 - All AI edge functions reference Forward's strategy principles
-- `src/components/TreasuryOverview.tsx` - Strategic dashboard
 
 **Integration Details**: 
 ```typescript
@@ -247,11 +272,14 @@ export const TREASURY_CONFIG = {
 };
 ```
 
-**Features Using Forward Strategy**:
+**Features Using Forward Ecosystem**:
 - ✅ AI Market Analysis (yield optimization)
 - ✅ AI Portfolio Optimization (risk-adjusted returns)
 - ✅ AI Risk Regime Monitor (capital preservation)
 - ✅ AI Portfolio Diversifier (efficient frontier)
+- ✅ Forward Metrics Dashboard (institutional KPIs)
+- ✅ Staking Yield Tracker (dual revenue streams)
+- ✅ **NEW**: RWA Tracking (IoT-enabled custody monitoring)
 
 ---
 
